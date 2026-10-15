@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="id"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Dashboard Revenue E-commerce Olist</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700;800&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+:root{--bg:#EEF3F1;--card:#fff;--ink:#12302B;--mut:#5E7873;--line:#DCE6E3;--c1:#0F766E;--c2:#E0A100;--c3:#C2410C;--c4:#14B8A6;--ok:#0F766E;--bad:#C2410C;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0C1A18;--card:#132623;--ink:#E6F2EF;--mut:#8FAAA5;--line:#23403C;--c1:#2DD4BF;--c2:#F5B82E;--c3:#FB923C;--c4:#5EEAD4;--ok:#2DD4BF;--bad:#FB923C}}
+:root[data-theme="dark"]{--bg:#0C1A18;--card:#132623;--ink:#E6F2EF;--mut:#8FAAA5;--line:#23403C;--c1:#2DD4BF;--c2:#F5B82E;--c3:#FB923C;--c4:#5EEAD4;--ok:#2DD4BF;--bad:#FB923C}
+*{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 14px/1.5 'Plus Jakarta Sans',system-ui,sans-serif}
+.w{max-width:1240px;margin:0 auto;padding:24px 16px 40px}
+header{display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;align-items:flex-end;margin-bottom:20px}
+h1{font-size:26px;font-weight:800;margin:0;letter-spacing:-.02em}
+.sub{color:var(--mut);margin:2px 0 0}
+.ctl{display:flex;flex-wrap:wrap;gap:10px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:8px 12px}
+.ctl label{color:var(--mut);font-size:12px}
+select{font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:4px 6px}
+.ck{display:flex;gap:6px;align-items:center;color:var(--ink)!important;font-size:13px!important}
+.g{display:grid;grid-template-columns:repeat(12,1fr);gap:14px}
+.k{grid-column:span 3;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px;border-left:4px solid var(--c1)}
+.k:nth-child(2){border-left-color:var(--c2)}.k:nth-child(3){border-left-color:var(--c4)}.k:nth-child(4){border-left-color:var(--c3)}
+.k span{color:var(--mut);font-size:12px}.k b{display:block;font-size:28px;font-weight:800;letter-spacing:-.02em;margin:2px 0}.k small{color:var(--mut)}
+.c{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px}
+.c h2{font-size:15px;font-weight:700;margin:0}.c p{margin:2px 0 10px;color:var(--mut);font-size:12.5px}
+.r{position:relative;height:280px}.s8{grid-column:span 8}.s4{grid-column:span 4}.s6{grid-column:span 6}.s7{grid-column:span 7}.s5{grid-column:span 5}
+.ins{margin-top:10px;padding:10px 12px;border-radius:8px;background:var(--bg);font-size:13px}
+footer{margin-top:18px;color:var(--mut);font-size:12px}
+@media(max-width:900px){.k{grid-column:span 6}.s8,.s4,.s6,.s7,.s5{grid-column:span 12}}
+@media(max-width:480px){.k{grid-column:span 12}h1{font-size:22px}}
+</style></head><body><div class="w">
+<header><div><h1>Dashboard Revenue E-commerce Olist</h1><p class="sub">Brasil, 2017 sampai 2018. Semua nilai dalam BRL (Real Brasil).</p></div>
+<div class="ctl"><label for="f">Dari</label><select id="f"></select><label for="t">Sampai</label><select id="t"></select>
+<label class="ck"><input type="checkbox" id="ok" checked> Hanya bulan lengkap</label></div></header>
+<section class="g">
+<div class="k"><span>Total revenue</span><b id="k1"></b><small id="k1s"></small></div>
+<div class="k"><span>Total order</span><b id="k2"></b><small id="k2s"></small></div>
+<div class="k"><span>Rata-rata nilai order</span><b id="k3"></b><small>Revenue dibagi jumlah order</small></div>
+<div class="k"><span>Pelanggan repeat</span><b id="k4"></b><small>96,9% hanya membeli sekali</small></div>
+<div class="c s8"><h2>Revenue dan order per bulan</h2><p>Batang: revenue (BRL). Garis: jumlah order.</p><div class="r"><canvas id="a"></canvas></div></div>
+<div class="c s4"><h2>Pertumbuhan bulanan</h2><p>Perubahan revenue dibanding bulan lalu.</p><div class="r"><canvas id="b"></canvas></div></div>
+<div class="c s6"><h2>10 kategori dengan revenue tertinggi</h2><p>Total revenue per kategori (BRL).</p><div class="r" style="height:340px"><canvas id="d"></canvas></div></div>
+<div class="c s6"><h2>Waktu pengiriman per negara bagian</h2><p>Rata-rata hari pengiriman, dari terlama.</p><div class="r" style="height:340px;overflow-y:auto"><div style="position:relative;height:620px"><canvas id="e"></canvas></div></div></div>
+<div class="c s7"><h2>Pengiriman dan skor review</h2><p>Batang: jumlah order. Garis: rata-rata hari pengiriman.</p><div class="r"><canvas id="g"></canvas></div>
+<div class="ins">Order dengan review 1 rata-rata tiba dalam 21,3 hari. Order dengan review 5 tiba dalam 10,7 hari. Pengiriman lebih cepat berkaitan dengan review lebih baik.</div></div>
+<div class="c s5"><h2>Retensi pelanggan</h2><p>Dari 96.096 pelanggan.</p><div class="r"><canvas id="h"></canvas></div>
+<div class="ins">Hanya 2.997 pelanggan yang membeli lebih dari sekali. Retensi adalah peluang pertumbuhan terbesar.</div></div>
+</section>
+<footer>Sumber: Olist Brazilian E-commerce. Bulan tidak lengkap (Sep–Okt 2016, Des 2016, Sep–Okt 2018) disembunyikan secara default.</footer>
+</div>
+<script>
+const D={"rev":[{"m":"2016-09","o":3,"r":252.24,"ok":false},{"m":"2016-10","o":324,"r":59090.48,"ok":false},{"m":"2016-12","o":1,"r":19.62,"ok":false},{"m":"2017-01","o":800,"r":138488.04,"ok":true},{"m":"2017-02","o":1780,"r":291908.01,"ok":true},{"m":"2017-03","o":2682,"r":449863.6,"ok":true},{"m":"2017-04","o":2404,"r":417788.03,"ok":true},{"m":"2017-05","o":3700,"r":592918.82,"ok":true},{"m":"2017-06","o":3245,"r":511276.38,"ok":true},{"m":"2017-07","o":4026,"r":592382.92,"ok":true},{"m":"2017-08","o":4331,"r":674396.32,"ok":true},{"m":"2017-09","o":4285,"r":727762.45,"ok":true},{"m":"2017-10","o":4631,"r":779677.88,"ok":true},{"m":"2017-11","o":7544,"r":1194882.8,"ok":true},{"m":"2017-12","o":5673,"r":878401.48,"ok":true},{"m":"2018-01","o":7269,"r":1115004.18,"ok":true},{"m":"2018-02","o":6728,"r":992463.34,"ok":true},{"m":"2018-03","o":7211,"r":1159652.12,"ok":true},{"m":"2018-04","o":6939,"r":1160785.48,"ok":true},{"m":"2018-05","o":6873,"r":1153982.15,"ok":true},{"m":"2018-06","o":6167,"r":1023880.5,"ok":true},{"m":"2018-07","o":6292,"r":1066540.75,"ok":true},{"m":"2018-08","o":6512,"r":1022425.32,"ok":true},{"m":"2018-09","o":16,"r":4439.54,"ok":false},{"m":"2018-10","o":4,"r":589.67,"ok":false}],"g":[{"m":"2017-01","v":null},{"m":"2017-02","v":1.1078},{"m":"2017-03","v":0.5411},{"m":"2017-04","v":-0.0713},{"m":"2017-05","v":0.4192},{"m":"2017-06","v":-0.1377},{"m":"2017-07","v":0.1586},{"m":"2017-08","v":0.1384},{"m":"2017-09","v":0.0791},{"m":"2017-10","v":0.0713},{"m":"2017-11","v":0.5325},{"m":"2017-12","v":-0.2649},{"m":"2018-01","v":0.2694},{"m":"2018-02","v":-0.1099},{"m":"2018-03","v":0.1685},{"m":"2018-04","v":0.001},{"m":"2018-05","v":-0.0059},{"m":"2018-06","v":-0.1127},{"m":"2018-07","v":0.0417},{"m":"2018-08","v":-0.0414}],"k":[{"n":"beleza_saude","o":8836,"r":1258681.34},{"n":"relogios_presentes","o":5624,"r":1205005.68},{"n":"cama_mesa_banho","o":9417,"r":1036988.68},{"n":"esporte_lazer","o":7720,"r":988048.97},{"n":"informatica_acessorios","o":6689,"r":911954.32},{"n":"moveis_decoracao","o":6449,"r":729762.49},{"n":"cool_stuff","o":3632,"r":635290.85},{"n":"utilidades_domesticas","o":5884,"r":632248.66},{"n":"automotivo","o":3897,"r":592720.11},{"n":"ferramentas_jardim","o":3518,"r":485256.46}],"p":[{"s":1,"o":9409,"d":21.3},{"s":2,"o":2941,"d":16.7},{"s":3,"o":7962,"d":14.3},{"s":4,"o":18987,"d":12.3},{"s":5,"o":57060,"d":10.7}],"w":[{"s":"RR","o":41,"d":29.4},{"s":"AP","o":67,"d":27.2},{"s":"AM","o":145,"d":26.4},{"s":"AL","o":397,"d":24.5},{"s":"PA","o":946,"d":23.8},{"s":"MA","o":717,"d":21.6},{"s":"SE","o":335,"d":21.5},{"s":"CE","o":1279,"d":21.3},{"s":"AC","o":80,"d":21.0},{"s":"PB","o":517,"d":20.4},{"s":"PI","o":476,"d":19.5},{"s":"RO","o":243,"d":19.4},{"s":"RN","o":474,"d":19.3},{"s":"BA","o":3256,"d":19.3},{"s":"PE","o":1593,"d":18.4},{"s":"MT","o":886,"d":18.1},{"s":"TO","o":274,"d":17.7},{"s":"ES","o":1995,"d":15.8},{"s":"MS","o":701,"d":15.6},{"s":"GO","o":1957,"d":15.6},{"s":"RS","o":5344,"d":15.3},{"s":"RJ","o":12353,"d":15.3},{"s":"SC","o":3547,"d":15.0},{"s":"DF","o":2080,"d":13.0},{"s":"PR","o":4923,"d":12.0},{"s":"MG","o":11355,"d":12.0},{"s":"SP","o":40495,"d":8.8}]};
+const $=i=>document.getElementById(i),ch={};
+const cv=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const bi=n=>n>=1e6?(n/1e6).toFixed(2).replace('.',',')+' jt':n>=1e3?(n/1e3).toFixed(0)+' rb':n.toFixed(0);
+const nf=n=>Math.round(n).toLocaleString('id-ID');
+const mn=['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
+const lb=m=>mn[+m.slice(5)-1]+' '+m.slice(2,4);
+const pr=s=>s.replace(/_/g,' ');
+D.rev.forEach(r=>{for(const s of['f','t']){const o=document.createElement('option');o.value=r.m;o.textContent=lb(r.m);$(s).appendChild(o)}});
+$('f').value='2017-01';$('t').value='2018-08';
+function mk(id,cfg){ch[id]&&ch[id].destroy();ch[id]=new Chart($(id),cfg)}
+function base(){Chart.defaults.color=cv('--mut');Chart.defaults.borderColor=cv('--line');Chart.defaults.font.family="'Plus Jakarta Sans',system-ui,sans-serif";Chart.defaults.maintainAspectRatio=false}
+const ax=(f)=>({ticks:{callback:f},grid:{color:cv('--line')}});
+function dyn(){
+ const a=$('f').value,z=$('t').value,ok=$('ok').checked;
+ const R=D.rev.filter(r=>r.m>=a&&r.m<=z&&(!ok||r.ok));
+ const rv=R.reduce((s,r)=>s+r.r,0),od=R.reduce((s,r)=>s+r.o,0);
+ const pk=R.length?R.reduce((p,r)=>r.r>p.r?r:p):null;
+ $('k1').textContent='R$ '+bi(rv);$('k1s').textContent=pk?'Puncak: '+lb(pk.m)+' (R$ '+bi(pk.r)+')':'Tidak ada data';
+ $('k2').textContent=nf(od);$('k2s').textContent=R.length+' bulan dipilih';
+ $('k3').textContent='R$ '+(od?(rv/od).toFixed(2).replace('.',','):'0');
+ $('k4').textContent='3,1%';
+ mk('a',{data:{labels:R.map(r=>lb(r.m)),datasets:[{type:'bar',label:'Revenue (BRL)',data:R.map(r=>r.r),backgroundColor:cv('--c1'),borderRadius:4,yAxisID:'y'},{type:'line',label:'Jumlah order',data:R.map(r=>r.o),borderColor:cv('--c2'),backgroundColor:cv('--c2'),tension:.3,pointRadius:3,yAxisID:'y1'}]},options:{interaction:{mode:'index',intersect:false},scales:{y:ax(bi),y1:{position:'right',grid:{display:false},ticks:{callback:bi}},x:{grid:{display:false}}},plugins:{legend:{position:'bottom'},tooltip:{callbacks:{label:c=>c.dataset.label+': '+nf(c.parsed.y)}}}}});
+ const G=D.g.filter(r=>r.m>=a&&r.m<=z&&r.v!==null);
+ mk('b',{type:'bar',data:{labels:G.map(r=>lb(r.m)),datasets:[{data:G.map(r=>r.v*100),backgroundColor:G.map(r=>r.v>=0?cv('--ok'):cv('--bad')),borderRadius:3}]},options:{scales:{y:ax(v=>v+'%'),x:{grid:{display:false},ticks:{maxRotation:90,font:{size:10}}}},plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.parsed.y.toFixed(1).replace('.',',')+'%'}}}}});
+}
+function stat(){
+ mk('d',{type:'bar',data:{labels:D.k.map(r=>pr(r.n)),datasets:[{data:D.k.map(r=>r.r),backgroundColor:cv('--c1'),borderRadius:4}]},options:{indexAxis:'y',scales:{x:ax(bi),y:{grid:{display:false}}},plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>'R$ '+nf(c.parsed.x)+' ('+nf(D.k[c.dataIndex].o)+' order)'}}}}});
+ const W=[...D.w].sort((x,y)=>y.d-x.d);
+ mk('e',{type:'bar',data:{labels:W.map(r=>r.s),datasets:[{data:W.map(r=>r.d),backgroundColor:W.map(r=>r.d>=21?cv('--c3'):cv('--c4')),borderRadius:3}]},options:{indexAxis:'y',scales:{x:ax(v=>v+' hr'),y:{grid:{display:false},ticks:{font:{size:11}}}},plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.parsed.x+' hari ('+nf(W[c.dataIndex].o)+' order)'}}}}});
+ mk('g',{data:{labels:D.p.map(r=>'Skor '+r.s),datasets:[{type:'bar',label:'Jumlah order',data:D.p.map(r=>r.o),backgroundColor:cv('--c1'),borderRadius:4,yAxisID:'y'},{type:'line',label:'Hari pengiriman',data:D.p.map(r=>r.d),borderColor:cv('--c3'),backgroundColor:cv('--c3'),pointRadius:4,tension:.3,yAxisID:'y1'}]},options:{scales:{y:ax(bi),y1:{position:'right',grid:{display:false},ticks:{callback:v=>v+' hr'}},x:{grid:{display:false}}},plugins:{legend:{position:'bottom'}}}});
+ mk('h',{type:'doughnut',data:{labels:['Sekali beli','Repeat'],datasets:[{data:[93099,2997],backgroundColor:[cv('--c1'),cv('--c2')],borderColor:cv('--card'),borderWidth:3}]},options:{cutout:'62%',plugins:{legend:{position:'bottom'},tooltip:{callbacks:{label:c=>c.label+': '+nf(c.parsed)+' pelanggan'}}}}});
+}
+function all(){base();dyn();stat()}
+['f','t','ok'].forEach(i=>$(i).addEventListener('change',()=>{base();dyn()}));
+matchMedia('(prefers-color-scheme: dark)').addEventListener('change',all);
+all();
+</script></body></html>

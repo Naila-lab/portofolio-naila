@@ -1,0 +1,47 @@
+@import "tailwindcss";
+
+@theme {
+  --color-paper: #F3F6FB;
+  --color-ink: #0F1B3F;
+  --color-cobalt: #1F3FD6;
+  --color-sun: #FFD84D;
+  --color-mute: #4B5878;
+  --color-rule: #D3DBEA;
+  --color-tint: #E3E9FB;
+  --color-butter: #FFF1BF;
+  --font-display: "Bricolage Grotesque", system-ui, sans-serif;
+  --font-body: "Source Serif 4", Georgia, serif;
+}
+
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  font-size: 1.0625rem;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+:focus-visible { outline: 3px solid var(--color-cobalt); outline-offset: 3px; border-radius: 2px; }
+.on-cobalt :focus-visible { outline-color: var(--color-sun); }
+
+.ulink { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 4px; text-decoration-color: var(--color-cobalt); }
+.ulink:hover { background: var(--color-sun); }
+.on-sun .ulink:hover { background: #fff; }
+.btn {
+  font-family: var(--font-display); font-weight: 600; font-size: .95rem;
+  border: 2px solid var(--color-ink); background: var(--color-paper); color: var(--color-ink);
+  padding: .55rem 1rem; cursor: pointer; border-radius: 999px;
+}
+.btn:hover { background: var(--color-sun); }
+.btn-solid { background: var(--color-ink); color: var(--color-paper); }
+.btn-solid:hover { background: var(--color-cobalt); color: #fff; }
+.sticker { cursor: grab; touch-action: none; user-select: none; -webkit-user-select: none; transition: rotate .25s ease-out; }
+.sticker:active { cursor: grabbing; }
+.prose-line { max-width: 62ch; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { transition-duration: 0s !important; animation-duration: 0s !important; }
+}
